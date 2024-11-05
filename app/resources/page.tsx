@@ -1,7 +1,7 @@
 "use client";
 
-// Import components and styles from Material UI and Next.js
-import { Box, Typography, Button, Divider, Card, CardContent, CardActions, Grid } from "@mui/material";
+// Import necessary components from Material UI and Next.js
+import { Box, Typography, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import Link from "next/link";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -20,72 +20,63 @@ export default function ResourcesPage() {
             sx={{
                 width: "100%",
                 minHeight: "100vh",
-                backgroundColor: "#000000", // Black background color
+                backgroundColor: "#000000", // Black background
                 color: "#ffffff",           // White text color
-                paddingX: { xs: 2, sm: 4, md: 8 }, // Responsive horizontal padding
+                paddingX: { xs: 2, sm: 4, md: 8 }, // Responsive padding
                 paddingY: 4,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
             }}
         >
-            {/* Header section, aligned to the left */}
-            <Box sx={{ width: "100%", maxWidth: "1400px", mb: 6 }}>
+            {/* Header section */}
+            <Box sx={{ width: "100%", maxWidth: "1000px", mb: 6 }}>
                 <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff", textAlign: "left" }}>
                     Resources
                 </Typography>
                 <Divider sx={{ borderColor: "#fdd10a", width: "100px", mb: 3 }} />
-                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 1, color: "#fdd10a", textAlign: "left" }}>
+                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 3, color: "#fdd10a", textAlign: "left" }}>
                     Explore resources that delve deeper into topics from the podcast.
                 </Typography>
             </Box>
 
-            {/* Responsive Resource Cards in a Grid layout */}
-            <Grid container spacing={4} justifyContent="center">
-                {resources.map((resource, index) => (
-                    <Grid item xs={12} sm={6} md={4} key={index}> {/* Responsive columns */}
-                        <Card
-                            sx={{
-                                backgroundColor: "#112255",
-                                borderRadius: 2,
-                                boxShadow: 3,
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <CardContent>
-                                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                                    <LibraryBooksIcon sx={{ color: "#fdd10a", mr: 1 }} />
-                                    <Typography variant="h5" component="div" sx={{ fontWeight: "bold", color: "#ffffff" }}>
-                                        {resource.title}
-                                    </Typography>
-                                </Box>
-                                <Typography variant="body2" sx={{ color: "#dddddd" }}>
-                                    {resource.description}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Link href={resource.link} passHref>
-                                    <Button
-                                        variant="outlined"
-                                        color="secondary"
-                                        endIcon={<ArrowForwardIcon />}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        sx={{
-                                            marginLeft: "auto", // Align button to the right
-                                            textTransform: "none", // Disable uppercase text
-                                        }}
-                                    >
-                                        Visit
-                                    </Button>
-                                </Link>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+            {/* Table of Resources */}
+            <TableContainer component={Paper} sx={{ maxWidth: "1000px", backgroundColor: "#112255", borderRadius: 2 }}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell sx={{ color: "#fdd10a", fontWeight: "bold", fontSize: "1rem" }}>Title</TableCell>
+                            <TableCell sx={{ color: "#fdd10a", fontWeight: "bold", fontSize: "1rem" }}>Description</TableCell>
+                            <TableCell sx={{ color: "#fdd10a", fontWeight: "bold", fontSize: "1rem" }}>Link</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {resources.map((resource, index) => (
+                            <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                                <TableCell sx={{ color: "#ffffff", display: "flex", alignItems: "center", gap: 1 }}>
+                                    <LibraryBooksIcon sx={{ color: "#fdd10a" }} />
+                                    {resource.title}
+                                </TableCell>
+                                <TableCell sx={{ color: "#dddddd" }}>{resource.description}</TableCell>
+                                <TableCell>
+                                    <Link href={resource.link} passHref>
+                                        <Button
+                                            variant="outlined"
+                                            color="secondary"
+                                            endIcon={<ArrowForwardIcon />}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            sx={{ textTransform: "none" }}
+                                        >
+                                            Visit
+                                        </Button>
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 }
