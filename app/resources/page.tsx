@@ -1,30 +1,12 @@
 "use client";
 
-import { AppBar, Toolbar, Typography, Button, Box, CssBaseline, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+// Import components and styles from Material UI and Next.js
+import { Box, Typography, Button, Divider, Card, CardContent, CardActions, Grid } from "@mui/material";
 import Link from "next/link";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { deepPurple, amber } from "@mui/material/colors";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const darkTheme = createTheme({
-    palette: {
-        mode: "dark",
-        primary: {
-            main: deepPurple[500],
-        },
-        secondary: {
-            main: amber[500],
-        },
-        background: {
-            default: "#121212",
-            paper: "#1e1e1e",
-        },
-        text: {
-            primary: "#ffffff",
-            secondary: "#aaaaaa",
-        },
-    },
-});
-
+// Resources array with title, description, and link
 const resources = [
     { title: "Police Brutality Data", description: "A comprehensive dataset on police violence in the United States.", link: "https://policeviolencereport.org" },
     { title: "The Sentencing Project", description: "Research and advocacy for reducing racial disparities in the criminal justice system.", link: "https://www.sentencingproject.org" },
@@ -34,58 +16,79 @@ const resources = [
 
 export default function ResourcesPage() {
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-            <Box sx={{ display: "grid", gridTemplateRows: "20px 1fr 20px", minHeight: "100vh", padding: 8, pb: 20, gap: 16 }}>
-                <AppBar position="static" color="primary">
-                    <Toolbar>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            A Few Mad Apples - Resources
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <main style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
-                    <Typography variant="h3" component="h1" gutterBottom>
-                        Resources
-                    </Typography>
-                    <Typography variant="body1" paragraph>
-                        Here are some resources that provide more information on topics discussed in the podcast.
-                    </Typography>
-                    <TableContainer component={Paper} sx={{ maxWidth: "80%", backgroundColor: "#1e1e1e" }}>
-                        <Table aria-label="resources table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell sx={{ color: "#ffffff" }}>Title</TableCell>
-                                    <TableCell sx={{ color: "#ffffff" }}>Description</TableCell>
-                                    <TableCell sx={{ color: "#ffffff" }}>Link</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {resources.map((resource, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell sx={{ color: "#aaaaaa" }}>{resource.title}</TableCell>
-                                        <TableCell sx={{ color: "#aaaaaa" }}>{resource.description}</TableCell>
-                                        <TableCell>
-                                            <Link href={resource.link} passHref>
-                                                <Button component="a" target="_blank" rel="noopener noreferrer" variant="text" color="secondary">
-                                                    Visit
-                                                </Button>
-                                            </Link>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </main>
-                <footer style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-                    <Link href="/episodes" passHref>
-                        <Button variant="outlined" color="secondary">
-                            Back to Episodes
-                        </Button>
-                    </Link>
-                </footer>
+        <Box
+            sx={{
+                width: "100%",
+                minHeight: "100vh",
+                backgroundColor: "#000000", // Black background color
+                color: "#ffffff",           // White text color
+                paddingX: { xs: 2, sm: 4, md: 8 }, // Responsive horizontal padding
+                paddingY: 4,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+        >
+            {/* Header section, aligned to the left */}
+            <Box sx={{ width: "100%", maxWidth: "1200px", mb: 6 }}>
+                <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff", textAlign: "left" }}>
+                    Resources
+                </Typography>
+                <Divider sx={{ borderColor: "#fdd10a", width: "100px", mb: 3 }} />
+                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 3, color: "#fdd10a", textAlign: "left" }}>
+                    Explore resources that delve deeper into topics from the podcast.
+                </Typography>
+                <Typography variant="body1" paragraph sx={{ mb: 4, color: "#dddddd", textAlign: "left" }}>
+                    These resources provide additional context and research around systemic injustices and reforms. Dive in to learn more and empower change.
+                </Typography>
             </Box>
-        </ThemeProvider>
+
+            {/* Responsive Resource Cards in a Grid layout */}
+            <Grid container spacing={4} justifyContent="center">
+                {resources.map((resource, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}> {/* Responsive columns */}
+                        <Card
+                            sx={{
+                                backgroundColor: "#112255",
+                                borderRadius: 2,
+                                boxShadow: 3,
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <CardContent>
+                                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                                    <LibraryBooksIcon sx={{ color: "#fdd10a", mr: 1 }} />
+                                    <Typography variant="h5" component="div" sx={{ fontWeight: "bold", color: "#ffffff" }}>
+                                        {resource.title}
+                                    </Typography>
+                                </Box>
+                                <Typography variant="body2" sx={{ color: "#dddddd" }}>
+                                    {resource.description}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Link href={resource.link} passHref>
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        endIcon={<ArrowForwardIcon />}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        sx={{
+                                            marginLeft: "auto", // Align button to the right
+                                            textTransform: "none", // Disable uppercase text
+                                        }}
+                                    >
+                                        Visit
+                                    </Button>
+                                </Link>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     );
 }
