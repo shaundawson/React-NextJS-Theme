@@ -30,16 +30,13 @@ export default function ResourcesPage() {
             }}
         >
             {/* Header section, aligned to the left */}
-            <Box sx={{ width: "100%", maxWidth: "1200px", mb: 6 }}>
+            <Box sx={{ width: "100%", maxWidth: "1400px", mb: 6 }}>
                 <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff", textAlign: "left" }}>
                     Resources
                 </Typography>
                 <Divider sx={{ borderColor: "#fdd10a", width: "100px", mb: 3 }} />
-                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 3, color: "#fdd10a", textAlign: "left" }}>
+                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 1, color: "#fdd10a", textAlign: "left" }}>
                     Explore resources that delve deeper into topics from the podcast.
-                </Typography>
-                <Typography variant="body1" paragraph sx={{ mb: 4, color: "#dddddd", textAlign: "left" }}>
-                    These resources provide additional context and research around systemic injustices and reforms. Dive in to learn more and empower change.
                 </Typography>
             </Box>
 
