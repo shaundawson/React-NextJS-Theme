@@ -7,7 +7,7 @@ export default function HomePage() {
       sx={{
         position: "relative",
         width: "100vw",
-        height: { xs: "100vh", md: "80vh" }, // Responsive height for smaller screens
+        height: { xs: "100vh", md: "80vh", lg:"100vh", xl:"100vh" },
         overflow: "hidden",
         backgroundImage: "url('/homepage-hero-image.jpg')",
         backgroundSize: "cover",
@@ -16,7 +16,7 @@ export default function HomePage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
-        px: { xs: 2, md: 10 }, // Responsive padding for horizontal spacing
+        px: { xs: 2, md: 0, lg: 0, xl: 0 }, 
       }}
     >
       {/* Social Media Icons, Responsive Positioning */}
