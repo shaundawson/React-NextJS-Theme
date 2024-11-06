@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { AppBar, Toolbar, Typography, Button, Box, CssBaseline } from "@mui/material";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -48,7 +47,7 @@ export default function EpisodesPage() {
                         Podcast Episodes
                     </Typography>
                     <Typography variant="body1" paragraph>
-                        Explore our episodes where we uncover how violence within law enforcement corrupts the entire system, debunking the "few bad apples" myth, and highlighting injustices in policing Black communities.
+                        Explore our episodes where we uncover how violence within law enforcement corrupts the entire system, debunking the &quot;few bad apples&quot; myth, and highlighting injustices in policing Black communities.
                     </Typography>
                     <Box sx={{ display: "flex", gap: 4, flexDirection: { xs: "column", sm: "row" }, alignItems: "center" }}>
                         <Link href="/resources" passHref>

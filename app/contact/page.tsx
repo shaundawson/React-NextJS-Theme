@@ -3,18 +3,27 @@
 import { useEffect } from "react";
 import { Box, Typography, Divider } from "@mui/material";
 
+declare global {
+    interface Window {
+        hbspt: {
+            forms: {
+                create: (config: { portalId: string; formId: string; target: string }) => void;
+            };
+        };
+    }
+}
+
 export default function ContactPage() {
     useEffect(() => {
-        // Load the HubSpot form script when the component mounts
         const script = document.createElement("script");
         script.src = "//js.hsforms.net/forms/embed/v2.js";
         script.async = true;
         script.onload = () => {
             if (window.hbspt) {
                 window.hbspt.forms.create({
-                    portalId: "5688825",  
-                    formId: "938ef126-fd9b-4bc2-a7c8-28dba7f42c7e",  
-                    target: "#hubspotForm" 
+                    portalId: "5688825",
+                    formId: "938ef126-fd9b-4bc2-a7c8-28dba7f42c7e",
+                    target: "#hubspotForm"
                 });
             }
         };

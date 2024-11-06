@@ -1,7 +1,21 @@
 "use client";
 
 // Import components from Material UI and Next.js
-import { AppBar, Toolbar, Typography, Box, CssBaseline, Button, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Divider } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  CssBaseline,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -30,10 +44,10 @@ const darkTheme = createTheme({
   typography: { fontFamily: "Bebas Neue, sans-serif" },
 });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = (open) => () => {
+  const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
   };
 
@@ -122,7 +136,7 @@ export default function RootLayout({ children }) {
                     {menuItems.map(({ label, icon, href }, index) => (
                       <Link key={label} href={href} passHref>
                         <ListItem
-                          button
+                          component="a"
                           onClick={toggleDrawer(false)}
                           sx={{
                             color: "#ffffff",
@@ -137,7 +151,7 @@ export default function RootLayout({ children }) {
                               width: 4,
                               height: "100%",
                               backgroundColor: "#fdd10a",
-                              mr: 1.5, // Slightly reduced spacing between line and icon
+                              mr: 1.5,
                             }}
                           />
                           <ListItemIcon sx={{ color: "#ffffff", minWidth: 40 }}>{icon}</ListItemIcon>
@@ -150,7 +164,7 @@ export default function RootLayout({ children }) {
                             }}
                           />
                         </ListItem>
-                        {index < menuItems.length - 1 && <Divider sx={{ bgcolor: "#444" }} />} {/* Divider between items */}
+                        {index < menuItems.length - 1 && <Divider sx={{ bgcolor: "#444" }} />}
                       </Link>
                     ))}
                   </List>

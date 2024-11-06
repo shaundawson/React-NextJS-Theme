@@ -67,8 +67,9 @@ export default function ResourcesPage() {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Link href={resource.link} passHref>
+                            <Link href={resource.link}>
                                 <Button
+                                    component="a" // This renders the button as an anchor element
                                     variant="outlined"
                                     color="secondary"
                                     endIcon={<ArrowForwardIcon />}
@@ -77,12 +78,12 @@ export default function ResourcesPage() {
                                     sx={{
                                         textTransform: "none",
                                         fontSize: "0.875rem",
-                                        padding: "6px 12px",
+                                        padding: "4px 8px",
                                         color: "#fdd10a",
                                         borderColor: "#fdd10a",
                                         "&:hover": {
-                                            backgroundColor: "rgba(253, 209, 10, 0.1)",
-                                            borderColor: "#fdd10a",
+                                            backgroundColor: "rgba(253, 209, 10, 0.1)", // Lighter yellow hover background
+                                            borderColor: "#dcb609",
                                         },
                                     }}
                                 >
