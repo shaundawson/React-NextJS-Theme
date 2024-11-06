@@ -1,7 +1,7 @@
 "use client";
 
-// Import necessary components from Material UI and Next.js
-import { Box, Typography, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+// Import components from Material UI and Next.js
+import { Box, Typography, Divider, Card, CardContent, CardActions, Button } from "@mui/material";
 import Link from "next/link";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -20,63 +20,79 @@ export default function ResourcesPage() {
             sx={{
                 width: "100%",
                 minHeight: "100vh",
-                backgroundColor: "#000000", // Black background
-                color: "#ffffff",           // White text color
-                paddingX: { xs: 2, sm: 4, md: 8 }, // Responsive padding
-                paddingY: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                backgroundColor: "#000000",
+                color: "#ffffff",
+                px: { xs: 2, sm: 4, md: 6, lg: 8, xl: 10 },
+                py: 4,
             }}
         >
             {/* Header section */}
-            <Box sx={{ width: "100%", maxWidth: "1000px", mb: 6 }}>
+            <Box sx={{ width: "100%", maxWidth: "1600px", mb: 5, mx: "auto" }}>
                 <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff", textAlign: "left" }}>
                     Resources
                 </Typography>
                 <Divider sx={{ borderColor: "#fdd10a", width: "100px", mb: 3 }} />
-                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 3, color: "#fdd10a", textAlign: "left" }}>
+                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 0, color: "#fdd10a", textAlign: "left" }}>
                     Explore resources that delve deeper into topics from the podcast.
                 </Typography>
             </Box>
 
-            {/* Table of Resources */}
-            <TableContainer component={Paper} sx={{ maxWidth: "1000px", backgroundColor: "#112255", borderRadius: 2 }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell sx={{ color: "#fdd10a", fontWeight: "bold", fontSize: "1rem" }}>Title</TableCell>
-                            <TableCell sx={{ color: "#fdd10a", fontWeight: "bold", fontSize: "1rem" }}>Description</TableCell>
-                            <TableCell sx={{ color: "#fdd10a", fontWeight: "bold", fontSize: "1rem" }}>Link</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {resources.map((resource, index) => (
-                            <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                                <TableCell sx={{ color: "#ffffff", display: "flex", alignItems: "center", gap: 1 }}>
-                                    <LibraryBooksIcon sx={{ color: "#fdd10a" }} />
+            {/* Card-based grid for resources */}
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                        xs: "1fr",       // 1 column on extra-small screens
+                        sm: "1fr 1fr",   // 2 columns on small screens
+                        md: "1fr 1fr 1fr", // 3 columns on medium screens
+                        lg: "1fr 1fr 1fr 1fr", // 4 columns on large and extra-large screens
+                    },
+                    gap: 4,
+                    width: "100%",
+                    maxWidth: "1600px",
+                    mx: "auto", // Centers the grid within the screen width
+                }}
+            >
+                {resources.map((resource, index) => (
+                    <Card key={index} sx={{ backgroundColor: "#112255", color: "#ffffff", borderRadius: 2, boxShadow: 3 }}>
+                        <CardContent>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+                                <LibraryBooksIcon sx={{ color: "#fdd10a" }} />
+                                <Typography variant="h6" sx={{ fontWeight: "bold", color: "#ffffff" }}>
                                     {resource.title}
-                                </TableCell>
-                                <TableCell sx={{ color: "#dddddd" }}>{resource.description}</TableCell>
-                                <TableCell>
-                                    <Link href={resource.link} passHref>
-                                        <Button
-                                            variant="outlined"
-                                            color="secondary"
-                                            endIcon={<ArrowForwardIcon />}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            sx={{ textTransform: "none" }}
-                                        >
-                                            Visit
-                                        </Button>
-                                    </Link>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                </Typography>
+                            </Box>
+                            <Typography variant="body2" sx={{ color: "#dddddd", mb: 2 }}>
+                                {resource.description}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Link href={resource.link} passHref>
+                                <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    endIcon={<ArrowForwardIcon />}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    sx={{
+                                        textTransform: "none",
+                                        fontSize: "0.875rem",
+                                        padding: "6px 12px",
+                                        color: "#fdd10a",
+                                        borderColor: "#fdd10a",
+                                        "&:hover": {
+                                            backgroundColor: "rgba(253, 209, 10, 0.1)",
+                                            borderColor: "#fdd10a",
+                                        },
+                                    }}
+                                >
+                                    Visit
+                                </Button>
+                            </Link>
+                        </CardActions>
+                    </Card>
+                ))}
+            </Box>
         </Box>
     );
 }

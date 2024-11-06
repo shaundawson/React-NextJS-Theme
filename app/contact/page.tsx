@@ -15,11 +15,11 @@ export default function ContactPage() {
                 padding: 4,                   // Padding around the content
                 display: "flex",              // Flex container for centering
                 alignItems: "center",         // Center vertically
-                justifyContent: "right",     // Center horizontally
+                justifyContent: "center",     // Center horizontally
             }}
         >
             {/* Inner container with max width and left alignment for content */}
-            <Box sx={{ maxWidth: "500px", width: "100%", textAlign: "left", backgroundColor: "rgba(17, 34, 85, 0.9)", padding: 4, borderRadius: 2 }}>
+            <Box sx={{ maxWidth: "600px", width: "100%", textAlign: "left", backgroundColor: "rgba(17, 34, 85, 0.9)", padding: 4, borderRadius: 2 }}>
 
                 {/* Page headline */}
                 <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1 }}>

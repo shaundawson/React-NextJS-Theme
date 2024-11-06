@@ -7,7 +7,6 @@ export default function AboutPage() {
         <Box
             sx={{
                 width: "100vw",              // Full viewport width
-                minHeight: "100vh",           // Full viewport height
                 backgroundColor: "#000000",   // Black background color
                 color: "#ffffff",             // White text color
                 padding: 4,                   // Padding around the content
