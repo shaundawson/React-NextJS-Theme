@@ -12,9 +12,9 @@ export default function ContactPage() {
         script.onload = () => {
             if (window.hbspt) {
                 window.hbspt.forms.create({
-                    portalId: "5688825",  // Replace with your actual Portal ID
-                    formId: "938ef126-fd9b-4bc2-a7c8-28dba7f42c7e",  // Replace with your actual Form ID
-                    target: "#hubspotForm"  // Target div ID for embedding the form
+                    portalId: "5688825",  
+                    formId: "938ef126-fd9b-4bc2-a7c8-28dba7f42c7e",  
+                    target: "#hubspotForm" 
                 });
             }
         };
