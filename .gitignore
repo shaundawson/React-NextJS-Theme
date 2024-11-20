@@ -1,4 +1,6 @@
 .next
+app/api/resources/route.ts
+configuration.json
 
 # Docker Configuration Files
 !Dockerfile

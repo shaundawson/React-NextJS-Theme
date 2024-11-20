@@ -1,99 +1,116 @@
 "use client";
-
-// Import components from Material UI and Next.js
-import { Box, Typography, Divider, Card, CardContent, CardActions, Button } from "@mui/material";
-import Link from "next/link";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-
-// Resources array with title, description, and link
-const resources = [
-    { title: "Police Brutality Data", description: "A comprehensive dataset on police violence in the United States.", link: "https://policeviolencereport.org" },
-    { title: "The Sentencing Project", description: "Research and advocacy for reducing racial disparities in the criminal justice system.", link: "https://www.sentencingproject.org" },
-    { title: "Campaign Zero", description: "Policy solutions to end police violence in America.", link: "https://www.joincampaignzero.org" },
-    { title: "Equal Justice Initiative", description: "Information and reports on racial injustice and reform efforts.", link: "https://eji.org" },
-];
+import {
+    Box,
+    Typography,
+    Divider,
+    Card,
+    CardContent,
+    Grid,
+    IconButton,
+} from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { useEffect, useState } from "react";
 
 export default function ResourcesPage() {
+    const [resources, setResources] = useState(null);
+
+    useEffect(() => {
+        const loadResources = async () => {
+            try {
+                const response = await fetch("/api/resources");
+                const fetchedResources = await response.json();
+                setResources(fetchedResources);
+            } catch (error) {
+                console.error("Failed to fetch resources:", error);
+            }
+        };
+        loadResources();
+    }, []);
+
     return (
         <Box
             sx={{
                 width: "100%",
                 minHeight: "100vh",
-                backgroundColor: "#000000",
+                backgroundColor: "#112255",
                 color: "#ffffff",
-                px: { xs: 2, sm: 4, md: 6, lg: 8, xl: 10 },
+                px: { xs: 2, sm: 4, md: 8 },
                 py: 4,
             }}
         >
-            {/* Header section */}
-            <Box sx={{ width: "100%", maxWidth: "1600px", mb: 5, mx: "auto" }}>
-                <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff", textAlign: "left" }}>
+            <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", mb: 5 }}>
+                <Typography variant="h4" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff" }}>
                     Resources
                 </Typography>
                 <Divider sx={{ borderColor: "#fdd10a", width: "100px", mb: 3 }} />
-                <Typography variant="h6" sx={{ fontStyle: "italic", mb: 0, color: "#fdd10a", textAlign: "left" }}>
-                    Explore resources that delve deeper into topics from the podcast.
+                <Typography variant="h6" sx={{ fontStyle: "italic", color: "#fdd10a" }}>
+                    Explore resources grouped by subject to gain deeper insights.
                 </Typography>
             </Box>
 
-            {/* Card-based grid for resources */}
-            <Box
-                sx={{
-                    display: "grid",
-                    gridTemplateColumns: {
-                        xs: "1fr",       // 1 column on extra-small screens
-                        sm: "1fr 1fr",   // 2 columns on small screens
-                        md: "1fr 1fr 1fr", // 3 columns on medium screens
-                        lg: "1fr 1fr 1fr 1fr", // 4 columns on large and extra-large screens
-                    },
-                    gap: 4,
-                    width: "100%",
-                    maxWidth: "1600px",
-                    mx: "auto", // Centers the grid within the screen width
-                }}
-            >
-                {resources.map((resource, index) => (
-                    <Card key={index} sx={{ backgroundColor: "#112255", color: "#ffffff", borderRadius: 2, boxShadow: 3 }}>
-                        <CardContent>
-                            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-                                <LibraryBooksIcon sx={{ color: "#fdd10a" }} />
-                                <Typography variant="h6" sx={{ fontWeight: "bold", color: "#ffffff" }}>
-                                    {resource.title}
-                                </Typography>
-                            </Box>
-                            <Typography variant="body2" sx={{ color: "#dddddd", mb: 2 }}>
-                                {resource.description}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Link href={resource.link}>
-                                <Button
-                                    component="a" // This renders the button as an anchor element
-                                    variant="outlined"
-                                    color="secondary"
-                                    endIcon={<ArrowForwardIcon />}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    sx={{
-                                        textTransform: "none",
-                                        fontSize: "0.875rem",
-                                        padding: "4px 8px",
-                                        color: "#fdd10a",
-                                        borderColor: "#fdd10a",
-                                        "&:hover": {
-                                            backgroundColor: "rgba(253, 209, 10, 0.1)", // Lighter yellow hover background
-                                            borderColor: "#dcb609",
-                                        },
-                                    }}
-                                >
-                                    Visit
-                                </Button>
-                            </Link>
-                        </CardActions>
-                    </Card>
-                ))}
-            </Box>
+            {resources ? (
+                Object.keys(resources).map((category) => (
+                    <Box key={category} sx={{ width: "100%", maxWidth: "1200px", mx: "auto", mb: 5 }}>
+                        <Typography variant="h5" sx={{ mb: 2, color: "#ffffff", fontWeight: "bold" }}>
+                            {category}
+                        </Typography>
+                        <Grid container spacing={3}>
+                            {resources[category].map((resource, index) => (
+                                <Grid item xs={12} sm={6} md={4} key={index}>
+                                    <Card
+                                        sx={{
+                                            backgroundColor: "#1e1e1e",
+                                            color: "#ffffff",
+                                            boxShadow: 3,
+                                            borderRadius: 2,
+                                            height: "100%",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <CardContent>
+                                            <Typography
+                                                variant="h6"
+                                                sx={{
+                                                    fontWeight: "bold",
+                                                    color: "#fdd10a",
+                                                    mb: 1,
+                                                }}
+                                            >
+                                                {resource.title}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ mb: 1 }}>
+                                                <strong>Author(s):</strong> {resource.authors}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ mb: 1 }}>
+                                                <strong>Year:</strong> {resource.year}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ mb: 1 }}>
+                                                <strong>Format:</strong> {resource.format}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ mb: 2 }}>
+                                                {resource.description}
+                                            </Typography>
+                                            <IconButton
+                                                href={resource.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                sx={{ color: "#fdd10a" }}
+                                            >
+                                                <OpenInNewIcon />
+                                            </IconButton>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Box>
+                ))
+            ) : (
+                <Box sx={{ textAlign: "center" }}>
+                    <Typography variant="h6">Loading resources...</Typography>
+                </Box>
+            )}
         </Box>
     );
 }
