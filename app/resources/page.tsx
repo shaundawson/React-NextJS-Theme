@@ -7,6 +7,7 @@ import {
     CardContent,
     Grid,
     IconButton,
+    Button,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useEffect, useState } from "react";
@@ -38,6 +39,7 @@ export default function ResourcesPage() {
                 py: 4,
             }}
         >
+            {/* Header Section */}
             <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", mb: 5 }}>
                 <Typography variant="h4" sx={{ fontWeight: "bold", mb: 1, color: "#ffffff" }}>
                     Resources
@@ -48,9 +50,46 @@ export default function ResourcesPage() {
                 </Typography>
             </Box>
 
+            {/* Navigation Bar */}
+            {resources && (
+                <Box sx={{ width: "100%", maxWidth: "1200px", mx: "auto", mb: 4 }}>
+                    <Typography variant="h6" sx={{ mb: 2, color: "#ffffff" }}>
+                        Jump to a Category:
+                    </Typography>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                        {Object.keys(resources).map((category) => (
+                            <Button
+                                key={category}
+                                onClick={() =>
+                                    document
+                                        .getElementById(category.replace(/\s+/g, "-"))
+                                        ?.scrollIntoView({ behavior: "smooth" })
+                                }
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: "#fdd10a",
+                                    color: "#112255",
+                                    textTransform: "none",
+                                    "&:hover": {
+                                        backgroundColor: "#e5c309",
+                                    },
+                                }}
+                            >
+                                {category}
+                            </Button>
+                        ))}
+                    </Box>
+                </Box>
+            )}
+
+            {/* Resources Section */}
             {resources ? (
                 Object.keys(resources).map((category) => (
-                    <Box key={category} sx={{ width: "100%", maxWidth: "1200px", mx: "auto", mb: 5 }}>
+                    <Box
+                        key={category}
+                        id={category.replace(/\s+/g, "-")}
+                        sx={{ width: "100%", maxWidth: "1200px", mx: "auto", mb: 5 }}
+                    >
                         <Typography variant="h5" sx={{ mb: 2, color: "#ffffff", fontWeight: "bold" }}>
                             {category}
                         </Typography>
@@ -91,15 +130,26 @@ export default function ResourcesPage() {
                                             <Typography variant="body2" sx={{ mb: 2 }}>
                                                 {resource.description}
                                             </Typography>
-                                            <IconButton
-                                                href={resource.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                sx={{ color: "#fdd10a" }}
-                                            >
-                                                <OpenInNewIcon />
-                                            </IconButton>
+                                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                                                <Typography
+                                                    component="a"
+                                                    href={resource.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    sx={{
+                                                        color: "#fdd10a",
+                                                        textDecoration: "underline", // Adds underline to signify link
+                                                        cursor: "pointer", // Changes cursor to pointer on hover
+                                                        "&:hover": {
+                                                            color: "#dcb609", // Slightly darker yellow on hover
+                                                        },
+                                                    }}
+                                                >
+                                                    Learn More
+                                                </Typography>
+                                            </Box>
                                         </CardContent>
+
                                     </Card>
                                 </Grid>
                             ))}
