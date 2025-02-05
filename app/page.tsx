@@ -1,107 +1,73 @@
-import { Box, Typography, Link, Button } from "@mui/material";
+import { Box, Typography, Button, Card, CardContent } from "@mui/material";
+import Link from "next/link";
 import Image from "next/image";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const TARGET_CONTENT_GROUP_ID = "166977595766"; // Your Content Group ID
+  const HUBSPOT_API_URL = `https://api.hubapi.com/cms/v3/blogs/posts?contentGroupId=${TARGET_CONTENT_GROUP_ID}`;
+  const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
+
+  let blogPosts = [];
+
+  try {
+    const response = await fetch(HUBSPOT_API_URL, {
+      headers: {
+        Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to fetch blog posts: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log("🔍 Fetched Blog Posts:", JSON.stringify(data, null, 2));
+
+    // ✅ Store the blog posts
+    blogPosts = data.results || [];
+  } catch (error) {
+    console.error("❌ Error fetching blog posts:", error);
+  }
+
   return (
-    <Box
-      sx={{
-        position: "relative",
-        width: "100vw",
-        height: { xs: "100vh", md: "80vh", lg:"100vh", xl:"100vh" },
-        overflow: "hidden",
-        backgroundImage: "url('/homepage-hero-image.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        px: { xs: 2, md: 0, lg: 0, xl: 0 }, 
-      }}
-    >
-      {/* Social Media Icons, Responsive Positioning */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: { xs: 20, md: 50 }, // Adjusted for smaller screens
-          right: { xs: 10, md: 40 },
-          display: "flex",
-          flexDirection: { xs: "row", md: "column" }, // Stack vertically on larger screens
-          gap: 2,
-        }}
-      >
-        {[
-          { href: "https://spotify.com", src: "/spotify.svg", alt: "Spotify" },
-          { href: "https://www.apple.com/apple-podcasts/", src: "/apple-podcasts.svg", alt: "Apple Podcasts" },
-          { href: "https://music.amazon.com", src: "/amazon.png", alt: "Amazon Music" },
-          { href: "https://music.youtube.com", src: "/youtube.svg", alt: "YouTube Music" },
-        ].map((icon) => (
-          <Link
-            href={icon.href}
-            key={icon.alt}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ display: "flex", alignItems: "center" }} // Ensures icon alignment
-          >
-            <Image src={icon.src} alt={icon.alt} width={30} height={30} />
-          </Link>
-        ))}
-      </Box>
+    <Box sx={{ px: { xs: 2, md: 10 }, py: 5 }}>
+      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 3 }}>
+        Latest Blog Posts
+      </Typography>
 
-      {/* Text Overlay with Gradient */}
-      <Box
-        sx={{
-          width: "100%",
-          background: "linear-gradient(to top, rgba(17, 34, 85, 0.9), transparent)",
-          color: "white",
-          py: { xs: 4, md: 10 }, // Responsive vertical padding
-          px: { xs: 2, md: 10 },
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-        }}
-      >
-        {/* Headline with Yellow Underline */}
-        <Typography
-          variant="h3"
-          paragraph
-          sx={{
-            fontWeight: "bold",
-            mb: 2,
-            textDecoration: "underline",
-            textDecorationColor: "#fdd10a",
-            textDecorationThickness: "4px",
-          }}
-        >
-          A FEW MAD APPLES
-        </Typography>
+      {blogPosts.length === 0 ? (
+        <Typography>No blog posts available.</Typography>
+      ) : (
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+          {blogPosts.map((post) => (
+            <Card key={post.id} sx={{ width: { xs: "100%", md: "45%" }, p: 2 }}>
+              <Image
+                src={post.featuredImage || "/placeholder.jpg"}
+                alt={post.name}
+                width={400}
+                height={250}
+              />
+              <CardContent>
+                <Typography variant="h5" sx={{ fontWeight: "bold" }}>{post.name}</Typography>
+                <Typography sx={{ mb: 2 }}>{post.metaDescription || "No description available."}</Typography>
 
-        {/* Subtitle Text */}
-        <Typography variant="h4" sx={{ mb: 3 }}>
-          Uncovering how violence within law enforcement corrupts the entire system, debunking the &quot;few bad apples&quot; myth, and highlighting injustices in policing Black communities.
-        </Typography>
-
-        {/* Learn More Button */}
-        {/* Learn More Button */}
-        {/* Learn More Button */}
-        <Link href="/about">
-          <Button
-            component="a" // Ensures the button is treated as an anchor link
-            variant="contained"
-            sx={{
-              backgroundColor: "#fdd10a",       // Yellow button background
-              color: "#112255",                 // Blue text color for contrast
-              fontWeight: "bold",
-              padding: "12px 24px",
-              "&:hover": {
-                backgroundColor: "#dcb609",     // Darker yellow on hover
-              },
-            }}
-          >
-            Learn More →
-          </Button>
-        </Link>
-      </Box>
+                <Link href={post.url} target="_blank" rel="noopener noreferrer" passHref>
+                  <Button
+                    component="a"
+                    variant="contained"
+                    sx={{ backgroundColor: "#112255", color: "#fdd10a" }}
+                  >
+                    Read More
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      )}
     </Box>
   );
 }
+

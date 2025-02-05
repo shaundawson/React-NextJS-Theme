@@ -6,6 +6,7 @@ import {
   Toolbar,
   Typography,
   Box,
+  Grid,
   CssBaseline,
   Button,
   Drawer,
@@ -178,10 +179,92 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Box>
 
             {/* Footer */}
-            <Box component="footer" sx={{ padding: 2, backgroundColor: darkTheme.palette.background.default, color: darkTheme.palette.text.primary }}>
-              <Typography variant="body2" align="center">
-                © {new Date().getFullYear()} A Few Mad Apples. All Rights Reserved.
-              </Typography>
+            <Box
+              component="footer"
+              sx={{
+                backgroundColor: "#112255",
+                color: "white",
+                py: 6,
+                px: { xs: 2, md: 10 },
+                textAlign: { xs: "center", md: "left" },
+              }}
+            >
+              <Grid container spacing={4}>
+                {/* Column 1: Podcast Info */}
+                <Grid item xs={12} md={3}>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontWeight: "bold",
+                      mb: 2,
+                      textDecoration: "underline",
+                      textDecorationColor: "#fdd10a",
+                      textDecorationThickness: "4px",
+                    }}
+                  >
+                    A FEW MAD APPLES
+                  </Typography>
+
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    Uncovering how violence within law enforcement corrupts the entire system, debunking the &quot;few bad apples&quot; myth, and highlighting injustices in policing Black communities.
+                  </Typography>
+
+                  <Link href="/about" passHref>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#fdd10a",
+                        color: "#112255",
+                        fontWeight: "bold",
+                        padding: "8px 16px",
+                        "&:hover": { backgroundColor: "#dcb609" },
+                      }}
+                    >
+                      Learn More
+                    </Button>
+                  </Link>
+                </Grid>
+
+                {/* Column 2: Quick Links */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+                    Quick Links
+                  </Typography>
+                  <Link href="/" sx={{ display: "block", color: "white", mb: 1 }}>Home</Link>
+                  <Link href="/about" sx={{ display: "block", color: "white", mb: 1 }}>About</Link>
+                  <Link href="/episodes" sx={{ display: "block", color: "white", mb: 1 }}>Episodes</Link>
+                  <Link href="/resources" sx={{ display: "block", color: "white", mb: 1 }}>Resources</Link>
+                  <Link href="/contact" sx={{ display: "block", color: "white" }}>Contact</Link>
+                </Grid>
+
+                {/* Column 3: Follow Us */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+                    Follow Us
+                  </Typography>
+                  <Link href="https://spotify.com" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white", mb: 1 }}>
+                    Spotify
+                  </Link>
+                  <Link href="https://www.apple.com/apple-podcasts/" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white", mb: 1 }}>
+                    Apple Podcasts
+                  </Link>
+                  <Link href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white", mb: 1 }}>
+                    Amazon Music
+                  </Link>
+                  <Link href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white" }}>
+                    YouTube Music
+                  </Link>
+                </Grid>
+
+                {/* Column 4: Contact */}
+                <Grid item xs={12} md={3}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+                    Contact
+                  </Typography>
+                  <Typography variant="body2" sx={{ mb: 1 }}>Email: <Link href="mailto:sdaws016@fiu.edu" sx={{ color: "white" }}>sdaws016@fiu.edu</Link></Typography>
+                  <Typography variant="body2">Phone: <Link href="tel:+13473009098" sx={{ color: "white" }}>(347) 300-9098</Link></Typography>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </ThemeProvider>
