@@ -1,272 +1,162 @@
 "use client";
 
-// Import components from Material UI and Next.js
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  Grid,
-  CssBaseline,
-  Button,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-} from "@mui/material";
-import Link from "next/link";
+import { Archivo } from "next/font/google";
+import { AppBar, Toolbar, Box, Button, Container, IconButton, Drawer, List, ListItem, Typography, Grid, Link } from "@mui/material";
 import Image from "next/image";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TikTokIcon from "@mui/icons-material/MusicNote";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 
-// Icons for nav links
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import HeadphonesIcon from "@mui/icons-material/Headphones";
-import PieChartIcon from "@mui/icons-material/PieChart";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-import MailIcon from "@mui/icons-material/Mail";
+// Load Archivo font from Google Fonts
+const archivo = Archivo({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
-// Define a theme with consistent colors and typography settings
-const darkTheme = createTheme({
+// Define theme colors and typography for the website
+const theme = createTheme({
   palette: {
-    mode: "dark",
-    primary: { main: "#112255" },
-    secondary: { main: "#fdd10a" },
-    background: { default: "#000000", paper: "#000000" },
-    text: { primary: "#ffffff", secondary: "#fdd10a" },
+    primary: { main: "#112255" }, // Dark blue
+    secondary: { main: "#fdd10a" }, // Yellow
+    background: { default: "#112255", paper: "#ffffff" }, // Background colors
+    text: { primary: "#ffffff", secondary: "#dddddd" }, // Text colors
   },
-  typography: { fontFamily: "Bebas Neue, sans-serif" },
+  typography: {
+    fontFamily: archivo.style.fontFamily, // Apply Archivo font
+  },
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // State to control mobile menu (drawer)
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
 
-  const toggleDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
-  };
-
+  // Navigation menu items
   const menuItems = [
-    { label: "Home", icon: <HomeIcon />, href: "/" },
-    { label: "About", icon: <InfoIcon />, href: "/about" },
-    { label: "Episodes", icon: <HeadphonesIcon />, href: "#" },
-    { label: "Data", icon: <PieChartIcon />, href: "#" },
-    { label: "Resources", icon: <LibraryBooksIcon />, href: "/resources" },
-    { label: "Donate", icon: <VolunteerActivismIcon />, href: "#" },
-    { label: "Contact", icon: <MailIcon />, href: "/contact" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Episodes", href: "/episodes" },
+    { label: "Data", href: "/data" },
+    { label: "Resources", href: "/resources" },
+    { label: "Blog", href: "/blog" },
   ];
 
   return (
     <html lang="en">
       <head>
-        <title>A Few Mad Apples Podcast</title>
+        <title>A Few Mad Apples</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
-          <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-            {/* Navigation bar */}
-            <AppBar position="static" sx={{ backgroundColor: darkTheme.palette.primary.main }}>
-              <Toolbar>
-                <Link href="/" passHref>
-                  <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer", gap: 1, maxHeight: "30px" }}>
-                    <Image
-                      src="/logo.png"
-                      alt="A Few Mad Apples logo"
-                      width={50}
-                      height={50}
-                      style={{ maxHeight: "100%", width: "auto", height: "auto" }}
-                    />
-                  </Box>
-                </Link>
+      <body className={archivo.className} style={{ margin: 0, padding: 0, overflowX: "hidden" }}>
+        <ThemeProvider theme={theme}>
 
-                {/* Desktop Navigation Links */}
-                <Box sx={{ display: { xs: "none", md: "flex" }, marginLeft: "auto" }}>
-                  {menuItems.map(({ label, icon, href }) => (
+          {/* HEADER - Navigation Bar */}
+          <AppBar position="sticky" elevation={0} sx={{ background: "linear-gradient(to right, #0d1b4c, #112255)", borderBottom: "none" }}>
+            <Container maxWidth="xl">
+              <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+
+                {/* Logo */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Link href="/" passHref>
+                    <Image src="/logo.png" alt="A Few Mad Apples" width={80} height={80} />
+                  </Link>
+                </Box>
+
+                {/* Desktop Menu */}
+                <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3 }}>
+                  {menuItems.map(({ label, href }) => (
                     <Link key={label} href={href} passHref>
-                      <Button
-                        startIcon={icon}
-                        sx={{
-                          color: "white",
-                          "&:hover": { color: darkTheme.palette.secondary.main },
-                        }}
-                      >
-                        {label}
-                      </Button>
+                      <Button sx={{ color: "white", fontWeight: 600, textTransform: "none" }}>{label}</Button>
                     </Link>
                   ))}
                 </Box>
 
-                {/* Mobile Hamburger Menu */}
-                <Box sx={{ display: { xs: "flex", md: "none" }, ml: "auto" }}>
-                  <IconButton edge="start" color="inherit" onClick={toggleDrawer(true)} aria-label="menu">
-                    <MenuIcon />
-                  </IconButton>
-                </Box>
+                {/* Donate Button */}
+                <Link href="#" passHref>
+                  <Button sx={{ backgroundColor: "#fdd10a", color: "#112255", fontWeight: 600 }}>Donate Now</Button>
+                </Link>
 
-                {/* Drawer with Close Button and Transparent Gradient */}
-                <Drawer
-                  anchor="right"
-                  open={isDrawerOpen}
-                  onClose={toggleDrawer(false)}
-                  PaperProps={{
-                    sx: {
-                      background: "linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(17, 17, 17, 1))", // Transparent gradient
-                      color: "#ffffff",
-                      width: 280,
-                      transition: "transform 0.4s ease-in-out",
-                    },
-                  }}
-                >
-                  {/* Close Button at the Top */}
-                  <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
-                    <IconButton onClick={toggleDrawer(false)} aria-label="close" sx={{ color: "#fdd10a" }}>
-                      <CloseIcon />
-                    </IconButton>
-                  </Box>
+                {/* Mobile Menu Button */}
+                <IconButton sx={{ display: { xs: "flex", md: "none" } }} onClick={toggleDrawer(true)}>
+                  <MenuIcon sx={{ color: "white" }} />
+                </IconButton>
 
-                  {/* Menu List */}
-                  <List sx={{ paddingTop: 0 }}>
-                    {menuItems.map(({ label, icon, href }, index) => (
-                      <Link key={label} href={href} passHref>
-                        <ListItem
-                          component="a"
-                          onClick={toggleDrawer(false)}
-                          sx={{
-                            color: "#ffffff",
-                            "&:hover": {
-                              backgroundColor: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
-                            },
-                          }}
-                        >
-                          {/* Yellow accent line on the left */}
-                          <Box
-                            sx={{
-                              width: 4,
-                              height: "100%",
-                              backgroundColor: "#fdd10a",
-                              mr: 1.5,
-                            }}
-                          />
-                          <ListItemIcon sx={{ color: "#ffffff", minWidth: 40 }}>{icon}</ListItemIcon>
-                          <ListItemText
-                            primary={label}
-                            primaryTypographyProps={{
-                              fontSize: "1rem",
-                              fontWeight: 400,
-                              color: "#ffffff",
-                            }}
-                          />
-                        </ListItem>
-                        {index < menuItems.length - 1 && <Divider sx={{ bgcolor: "#444" }} />}
-                      </Link>
-                    ))}
-                  </List>
-                </Drawer>
               </Toolbar>
-            </AppBar>
+            </Container>
+          </AppBar>
 
-            {/* Main content area */}
-            <Box component="main" sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", width: "100%", padding: 0 }}>
-              {children}
+          {/* MOBILE MENU - Drawer for small screens */}
+          <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+            <Box sx={{ width: 280, backgroundColor: "#112255", color: "white", p: 2 }}>
+              {/* Close Button */}
+              <IconButton onClick={toggleDrawer(false)} sx={{ color: "#fdd10a" }}>
+                <CloseIcon />
+              </IconButton>
+
+              {/* Navigation Links */}
+              <List>
+                {menuItems.map(({ label, href }) => (
+                  <Link key={label} href={href} passHref>
+                    <ListItem button>
+                      <Typography variant="h6" sx={{ color: "white" }}>{label}</Typography>
+                    </ListItem>
+                  </Link>
+                ))}
+              </List>
             </Box>
+          </Drawer>
 
-            {/* Footer */}
-            <Box
-              component="footer"
-              sx={{
-                backgroundColor: "#112255",
-                color: "white",
-                py: 6,
-                px: { xs: 2, md: 10 },
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              <Grid container spacing={4}>
-                {/* Column 1: Podcast Info */}
-                <Grid item xs={12} md={3}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: "bold",
-                      mb: 2,
-                      textDecoration: "underline",
-                      textDecorationColor: "#fdd10a",
-                      textDecorationThickness: "4px",
-                    }}
-                  >
-                    A FEW MAD APPLES
-                  </Typography>
-
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    Uncovering how violence within law enforcement corrupts the entire system, debunking the &quot;few bad apples&quot; myth, and highlighting injustices in policing Black communities.
-                  </Typography>
-
-                  <Link href="/about" passHref>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#fdd10a",
-                        color: "#112255",
-                        fontWeight: "bold",
-                        padding: "8px 16px",
-                        "&:hover": { backgroundColor: "#dcb609" },
-                      }}
-                    >
-                      Learn More
-                    </Button>
-                  </Link>
-                </Grid>
-
-                {/* Column 2: Quick Links */}
-                <Grid item xs={12} md={3}>
-                  <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-                    Quick Links
-                  </Typography>
-                  <Link href="/" sx={{ display: "block", color: "white", mb: 1 }}>Home</Link>
-                  <Link href="/about" sx={{ display: "block", color: "white", mb: 1 }}>About</Link>
-                  <Link href="/episodes" sx={{ display: "block", color: "white", mb: 1 }}>Episodes</Link>
-                  <Link href="/resources" sx={{ display: "block", color: "white", mb: 1 }}>Resources</Link>
-                  <Link href="/contact" sx={{ display: "block", color: "white" }}>Contact</Link>
-                </Grid>
-
-                {/* Column 3: Follow Us */}
-                <Grid item xs={12} md={3}>
-                  <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-                    Follow Us
-                  </Typography>
-                  <Link href="https://spotify.com" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white", mb: 1 }}>
-                    Spotify
-                  </Link>
-                  <Link href="https://www.apple.com/apple-podcasts/" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white", mb: 1 }}>
-                    Apple Podcasts
-                  </Link>
-                  <Link href="https://music.amazon.com" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white", mb: 1 }}>
-                    Amazon Music
-                  </Link>
-                  <Link href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" sx={{ display: "block", color: "white" }}>
-                    YouTube Music
-                  </Link>
-                </Grid>
-
-                {/* Column 4: Contact */}
-                <Grid item xs={12} md={3}>
-                  <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-                    Contact
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 1 }}>Email: <Link href="mailto:sdaws016@fiu.edu" sx={{ color: "white" }}>sdaws016@fiu.edu</Link></Typography>
-                  <Typography variant="body2">Phone: <Link href="tel:+13473009098" sx={{ color: "white" }}>(347) 300-9098</Link></Typography>
-                </Grid>
-              </Grid>
-            </Box>
+          {/* MAIN CONTENT */}
+          <Box component="main" sx={{ flexGrow: 1, width: "100vw", minHeight: "100vh", overflowX: "hidden" }}>
+            {children}
           </Box>
+
+          {/* FOOTER */}
+          <Box sx={{ backgroundColor: "#ffffff", borderTop: "1px solid #ddd", py: 6, mt: 0 }}>
+            <Container maxWidth="xl">
+              <Grid container spacing={3}>
+
+                {/* LEFT COLUMN - Social Media & Streaming Icons */}
+                <Grid item xs={12} md={4} sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <IconButton href="#" target="_blank"><FacebookIcon sx={{ color: "#1877F2" }} /></IconButton>
+                    <IconButton href="#" target="_blank"><TwitterIcon sx={{ color: "#000000" }} /></IconButton>
+                    <IconButton href="#" target="_blank"><YouTubeIcon sx={{ color: "#FF0000" }} /></IconButton>
+                    <IconButton href="#" target="_blank"><InstagramIcon sx={{ color: "#E1306C" }} /></IconButton>
+                    <IconButton href="#" target="_blank"><TikTokIcon sx={{ color: "#000000" }} /></IconButton>
+                  </Box>
+                </Grid>
+
+                {/* MIDDLE COLUMN - Copyright & Legal Links */}
+                <Grid item xs={12} md={4} sx={{ textAlign: "center" }}>
+                  <Typography variant="body2" sx={{ color: "#333" }}>
+                    © {new Date().getFullYear()} A Few Mad Apples
+                  </Typography>
+                  <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 1 }}>
+                    <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>User Agreement</Link>
+                    <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Privacy</Link>
+                    <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Your Data Choices</Link>
+                    <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Accessibility</Link>
+                  </Box>
+                </Grid>
+
+                {/* RIGHT COLUMN - Quick Links */}
+                <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
+                  <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+                    <Link href="#" sx={{ fontWeight: "bold", color: "#000", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Contact Us</Link>
+                    <Link href="#" sx={{ fontWeight: "bold", color: "#000", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Donate</Link>
+                    <Link href="#" sx={{ fontWeight: "bold", color: "#000", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Subscribe</Link>
+                  </Box>
+                </Grid>
+
+              </Grid>
+            </Container>
+          </Box>
+
+
         </ThemeProvider>
       </body>
     </html>

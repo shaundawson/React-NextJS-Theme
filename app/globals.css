@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Define Global Theme Variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary-color: #112255;
+  --secondary-color: #fdd10a;
+  --text-color-primary: #ffffff;
+  --text-color-secondary: #dddddd;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,6 +19,7 @@
   }
 }
 
+/* Global Styles */
 html,
 body {
   margin: 0;
@@ -22,5 +28,55 @@ body {
   overflow-x: hidden;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Archivo", Arial, Helvetica, sans-serif;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.btn-primary:hover {
+  background-color: #e5c009;
+}
+
+.btn-outlined {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: bold;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.btn-outlined:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color-primary);
+}
+
+/* Header */
+.header {
+  background: linear-gradient(to right, #0d1b4c, var(--primary-color));
+  border-bottom: none;
+}
+
+
+/* Footer */
+.footer {
+  background-color: var(--background);
+  border-top: 1px solid #ddd;
+  padding: 20px 0;
+  text-align: center;
+  color: var(--foreground);
+}
+
+/* Social Media Icons */
+.social-icons {
+  display: flex;
+  gap: 10px;
 }
