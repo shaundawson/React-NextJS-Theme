@@ -36,12 +36,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   // Navigation menu items
   const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Episodes", href: "/episodes" },
-    { label: "Data", href: "/data" },
-    { label: "Resources", href: "/resources" },
-    { label: "Blog", href: "/blog" },
+    { label: "HOME", href: "/" },
+    { label: "ABOUT", href: "/about" },
+    { label: "PODCAST", href: "/episodes" },
+    { label: "DATA", href: "/data" },
+    { label: "RESOURCES", href: "/resources" },
+    { label: "BLOG", href: "https://blog.afewmadapples.com/" },
   ];
 
   return (
@@ -73,11 +73,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                   ))}
                 </Box>
-
-                {/* Donate Button */}
-                <Link href="#" passHref>
-                  <Button sx={{ backgroundColor: "#fdd10a", color: "#112255", fontWeight: 600 }}>Donate Now</Button>
-                </Link>
 
                 {/* Mobile Menu Button */}
                 <IconButton sx={{ display: { xs: "flex", md: "none" } }} onClick={toggleDrawer(true)}>
