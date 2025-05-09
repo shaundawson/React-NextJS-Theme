@@ -38,10 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const menuItems = [
     { label: "HOME", href: "/" },
     { label: "ABOUT", href: "/about" },
-    { label: "PODCAST", href: "/episodes" },
+    { label: "EPISODES", href: "/episodes" },
     { label: "DATA", href: "/data" },
     { label: "RESOURCES", href: "/resources" },
-    { label: "BLOG", href: "https://blog.afewmadapples.com/" },
   ];
 
   return (
@@ -117,11 +116,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {/* LEFT COLUMN - Social Media & Streaming Icons */}
                 <Grid item xs={12} md={4} sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
                   <Box sx={{ display: "flex", gap: 2 }}>
-                    <IconButton href="#" target="_blank"><FacebookIcon sx={{ color: "#1877F2" }} /></IconButton>
-                    <IconButton href="#" target="_blank"><TwitterIcon sx={{ color: "#000000" }} /></IconButton>
-                    <IconButton href="#" target="_blank"><YouTubeIcon sx={{ color: "#FF0000" }} /></IconButton>
-                    <IconButton href="#" target="_blank"><InstagramIcon sx={{ color: "#E1306C" }} /></IconButton>
-                    <IconButton href="#" target="_blank"><TikTokIcon sx={{ color: "#000000" }} /></IconButton>
+                    <a href="#" target="_blank" aria-label="Spotify">
+                      <img src="https://blog.afewmadapples.com/hubfs/Social%20Media%20Icons/Spotify/Spotify_Primary_Logo_RGB_Green.png" alt="Spotify" style={{ height: 32, width: "auto" }} />
+                    </a>
+                    <a href="#" target="_blank" aria-label="Apple Podcasts">
+                      <img src="https://blog.afewmadapples.com/hubfs/Social%20Media%20Icons/Apple/ApplePodcasts.png" alt="Apple Podcasts" style={{ height: 32, width: "auto" }} />
+                    </a>
+                    <a href="#" target="_blank" aria-label="YouTube">
+                      <img src="https://blog.afewmadapples.com/hubfs/Social%20Media%20Icons/Youtube/Youtube_Music_icon.svg.png" alt="YouTube" style={{ height: 32, width: "auto" }} />
+                    </a>
+                    <a href="#" target="_blank" aria-label="Amazon Music/Audible">
+                      <img src="https://blog.afewmadapples.com/hubfs/Social%20Media%20Icons/Amazon/icons8-audible-96.png" alt="Amazon Music" style={{ height: 32, width: "auto" }} />
+                    </a>
                   </Box>
                 </Grid>
 
@@ -134,7 +140,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>User Agreement</Link>
                     <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Privacy</Link>
                     <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Your Data Choices</Link>
-                    <Link href="#" sx={{ fontSize: "0.875rem", color: "#333", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>Accessibility</Link>
                   </Box>
                 </Grid>
 

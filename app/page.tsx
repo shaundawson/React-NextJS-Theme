@@ -3,46 +3,39 @@ import Link from "next/link";
 import Image from "next/image";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import ArticleIcon from "@mui/icons-material/Article";
+import RSSParser from "rss-parser";
+
+// Type for RSS items
+type RSSItem = {
+  title: string;
+  link: string;
+  contentSnippet?: string;
+  content?: string;
+  guid?: string;
+};
 
 export default async function HomePage() {
-  // API details for fetching blog posts from HubSpot
-  const TARGET_CONTENT_GROUP_ID = "166977595766";
-  const HUBSPOT_API_URL = `https://api.hubapi.com/cms/v3/blogs/posts?contentGroupId=${TARGET_CONTENT_GROUP_ID}&state=PUBLISHED`;
-  const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
+  const RSS_FEED_URL = "https://blog.afewmadapples.com/rss.xml";
 
-  // Initialize empty arrays for blog posts and latest episodes
-  let blogPosts = [];
-  let latestEpisodes = []; // Placeholder for future API integration
+  let blogPosts: RSSItem[] = [];
+  let latestEpisodes: any[] = []; // placeholder for future episodes
 
   try {
-    // Fetch blog posts from HubSpot API
-    const response = await fetch(HUBSPOT_API_URL, {
-      headers: {
-        Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    // If the response fails, log the error
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to fetch blog posts: ${errorText}`);
-    }
-
-    // Parse JSON response and sort posts by publish date (newest first)
-    const data = await response.json();
-    blogPosts = (data.results || []).sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
+    const parser: RSSParser = new RSSParser();
+    const feed = await parser.parseURL(RSS_FEED_URL);
+    blogPosts = feed.items.slice(0, 4);
   } catch (error) {
-    console.error("❌ Error fetching blog posts:", error);
+    console.error("❌ Error fetching RSS feed:", error);
   }
 
   return (
     <Box sx={{ backgroundColor: "#ffffff", minHeight: "100vh", width: "100vw", margin: 0, padding: 0 }}>
+
       {/* HERO SECTION */}
       <Box
         sx={{
           width: "100%",
-          height: "450px",
+          height: "100%",
           background: "linear-gradient(135deg, #0A1F44 0%, #112255 100%)",
           color: "#ffffff",
           display: "flex",
@@ -50,23 +43,22 @@ export default async function HomePage() {
         }}
       >
         <Container maxWidth="xl">
-          <Box sx={{ maxWidth: "600px" }}>
-            {/* Main heading */}
+          <Box sx={{ maxWidth: "800px" }}>
             <Typography variant="h2" sx={{ fontWeight: "bold", mb: 2 }}>
-              Uncover the Truth Behind Policing in Black Communities
+              When a system confuses badges with shields, who pays the price?
             </Typography>
-            {/* Supporting text */}
             <Typography sx={{ fontSize: "1.2rem", mb: 3 }}>
-              A Few Mad Apples exposes systemic injustice in law enforcement with investigative journalism and data analysis.
+              A Few Mad Apples uncovers a century-old reckoning: Black neighborhoods fighting not just for justice, but for their right to breathe. Through the lens of a Black filmmaker, the series asks—what happens when the guardians become the danger, and the community becomes the cure?”
+
             </Typography>
-            {/* Learn more button */}
-            <Link href="/about" passHref>
+            <Link href="/about">
               <Button
                 variant="contained"
                 sx={{
                   backgroundColor: "#fdd10a",
                   color: "#112255",
                   fontWeight: "bold",
+                  mb: 3,
                   px: 4,
                   py: 1.5,
                   fontSize: "1rem",
@@ -82,41 +74,6 @@ export default async function HomePage() {
         </Container>
       </Box>
 
-      {/* SPOTLIGHT SECTION */}
-      <Box sx={{ backgroundColor: "#ffffff", py: 6 }}>
-        <Container maxWidth="xl">
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-            <ArticleIcon sx={{ color: "#112255", mr: 1 }} />
-            <Typography variant="h5" sx={{ fontWeight: "bold", textTransform: "uppercase", color: "#112255" }}>
-              Spotlight
-            </Typography>
-            <Divider sx={{ flexGrow: 1, ml: 2, borderBottomWidth: 2, borderColor: "#112255" }} />
-          </Box>
-
-          {/* Display first 4 blog posts */}
-          <Grid container spacing={4}>
-            {blogPosts.slice(0, 4).map((post) => (
-              <Grid item xs={12} md={3} key={post.id}>
-                <Card sx={{ backgroundColor: "#ffffff", "&:hover": { boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)" } }}>
-                  <Image src={post.featuredImage || "/placeholder.jpg"} alt={post.name} width={400} height={200} style={{ objectFit: "cover", width: "100%" }} />
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: "bold", color: "#112255", mb: 1 }}>
-                      {post.name}
-                    </Typography>
-                    <Typography sx={{ mb: 2, color: "#555" }}>
-                      {post.metaDescription || "No description available."}
-                    </Typography>
-                    <Link href={post.url} target="_blank" rel="noopener noreferrer" passHref>
-                      <Button variant="outlined">Read More</Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
-
       {/* LATEST EPISODES SECTION */}
       <Box sx={{ backgroundColor: "#ffffff", py: 6 }}>
         <Container maxWidth="xl">
@@ -128,7 +85,6 @@ export default async function HomePage() {
             <Divider sx={{ flexGrow: 1, ml: 2, borderBottomWidth: 2, borderColor: "#112255" }} />
           </Box>
 
-          {/* Placeholder for future API integration */}
           <Grid container spacing={4}>
             {latestEpisodes.map((episode, index) => (
               <Grid item xs={12} md={4} key={index}>
@@ -148,7 +104,40 @@ export default async function HomePage() {
         </Container>
       </Box>
 
-      {/* STAY INFORMED SECTION (NEWSLETTER) */}
+      {/* SPOTLIGHT SECTION */}
+      <Box sx={{ backgroundColor: "#ffffff", py: 6 }}>
+        <Container maxWidth="xl">
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+            <ArticleIcon sx={{ color: "#112255", mr: 1 }} />
+            <Typography variant="h5" sx={{ fontWeight: "bold", textTransform: "uppercase", color: "#112255" }}>
+              Spotlight
+            </Typography>
+            <Divider sx={{ flexGrow: 1, ml: 2, borderBottomWidth: 2, borderColor: "#112255" }} />
+          </Box>
+
+          <Grid container spacing={4}>
+            {blogPosts.map((post, index) => (
+              <Grid item xs={12} md={3} key={post.guid || index}>
+                <Card sx={{ backgroundColor: "#ffffff", "&:hover": { boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)" } }}>
+                  <CardContent>
+                    <Typography variant="h6" sx={{ fontWeight: "bold", color: "#112255", mb: 1 }}>
+                      {post.title}
+                    </Typography>
+                    <Typography sx={{ mb: 2, color: "#555" }}>
+                      {post.contentSnippet || "No description available."}
+                    </Typography>
+                    <Link href={post.link} target="_blank">
+                      <Button variant="outlined">Read More</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* STAY INFORMED SECTION */}
       <Box sx={{ backgroundColor: "#f8f9fa", py: 6, textAlign: "center", mt: 6 }}>
         <Container maxWidth="sm">
           <Typography variant="h4" sx={{ fontWeight: "bold", color: "#112255", mb: 2 }}>
@@ -157,7 +146,6 @@ export default async function HomePage() {
           <Typography sx={{ mb: 3, color: "#555" }}>
             Sign up to be the first to hear about how to take action.
           </Typography>
-
           <Box component="form">
             <TextField fullWidth label="Email Address" variant="outlined" size="small" sx={{ mb: 2 }} />
             <Button fullWidth variant="contained" sx={{ backgroundColor: "#112255", color: "#ffffff" }}>
