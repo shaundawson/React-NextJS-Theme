@@ -5,19 +5,19 @@
 /* Global Theme Variables */
 :root {
   --background: #f6f4ee;
-  /* Warm cream for a hopeful, human touch */
+  /* Warm cream */
   --foreground: #181a1b;
-  /* Charcoal black for strong text contrast */
+  /* Charcoal black */
   --primary-color: #112255;
-  /* Deep navy for institutional depth */
+  /* Deep navy */
   --secondary-color: #fdd10a;
-  /* Gold for hope, action, and highlights */
+  /* Gold */
   --accent-color: #4b3f72;
-  /* Muted violet for somber, reflective elements */
+  /* Muted violet */
   --success-color: #4e944f;
-  /* Grassroots green for community/positive states */
+  /* Grassroots green */
   --danger-color: #d7263d;
-  /* Alert red for warnings/errors */
+  /* Alert red  */
   --text-color-primary: #181a1b;
   /* Main text color */
   --text-color-secondary: #4b3f72;
